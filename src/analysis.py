@@ -1,5 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+
+os.makedirs("outputs/resultados", exist_ok=True)
 
 # Cargar el dataset
 df = pd.read_csv("data/train.csv")
