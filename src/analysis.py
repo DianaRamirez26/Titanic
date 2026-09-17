@@ -75,9 +75,26 @@ df["Alone"] = (df["FamilySize"] == 1).astype(int)
 print("\nVariable Alone:")
 print(df["Alone"].value_counts())
 
+# Crear variable AgeGroup
+df["AgeGroup"] = pd.cut(
+    df["Age"],
+    bins=[0, 12, 18, 30, 50, 80],
+    labels=["Niño", "Adolescente", "Adulto joven", "Adulto", "Adulto mayor"]
+)
+
+print("\nVariable AgeGroup:")
+print(df["AgeGroup"].value_counts().sort_index())
+
 # Mostrar algunas filas con las nuevas variables
 print("\nNuevas variables:")
-print(df[["SibSp", "Parch", "FamilySize", "Alone", "HasCabin"]].head(10))
+print(df[[
+    "SibSp",
+    "Parch",
+    "FamilySize",
+    "Alone",
+    "HasCabin",
+    "AgeGroup"
+]].head(10))
 
 # Análisis 1: porcentaje general de supervivencia
 survival_rate = df["Survived"].mean() * 100
@@ -106,6 +123,12 @@ print(survival_by_alone)
 print("\nInterpretación de Alone:")
 print("0 = viajaba acompañado")
 print("1 = viajaba solo")
+
+# Análisis 5: supervivencia según grupo de edad
+survival_by_age_group = df.groupby("AgeGroup", observed=True)["Survived"].mean() * 100
+
+print("\nPorcentaje de supervivencia según grupo de edad:")
+print(survival_by_age_group)
 
 # Comprobar dimensiones después del procesamiento
 print("\nDimensiones después del procesamiento:")
